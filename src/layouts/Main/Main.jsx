@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import { Container } from "@mui/material";
 
 const Main = () => {
     return (
@@ -8,9 +9,9 @@ const Main = () => {
                 <div>
                     <Navbar></Navbar>
                 </div>
-                <div>
+                <Container maxWidth="xl">
                     <Outlet></Outlet>
-                </div>
+                </Container>
             </div>
         </>
     );
