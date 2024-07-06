@@ -13,6 +13,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import{filterPages} from '../../utils/index'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Badge } from '@mui/material';
 
 const Navbar=()=>{
     const pages = ['User Details','Grocery cost','History','Login','Logout','Register'];
@@ -31,7 +32,7 @@ const Navbar=()=>{
 
 
   return (
-    <AppBar position="static">
+    <AppBar style={{padding:'10px 0px 0px 0px'}} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link style={{color:'white'}}>
@@ -98,7 +99,9 @@ const Navbar=()=>{
                     <Button >Admin</Button>
                 </Link><br />
                 <Link to='/user'>
-                <Button><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></Button>
+                <Badge sx={{marginTop:'20px'}} badgeContent='S.H.Topu' color='secondary'>
+                <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
+                </Badge>
                 </Link>
               </Box>
             </Menu>
@@ -143,9 +146,11 @@ const Navbar=()=>{
                     </Button>
                 </Link>
           </Box>
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex' } }}>
                 <Link to='/user'>
+                <Badge badgeContent='S.H.Topu' color='secondary'>
                 <AccountCircleIcon sx={{color:'white',my:2}}></AccountCircleIcon>
+                </Badge>
                 </Link>
           </Box>
           
