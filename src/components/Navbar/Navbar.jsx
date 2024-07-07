@@ -13,11 +13,12 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import{filterPages} from '../../utils/index'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Badge } from '@mui/material';
-
+import {Chip } from '@mui/material';
+import { useStoreState } from 'easy-peasy';
 const Navbar=()=>{
+    const {user}=useStoreState(state=>state.user)
+    console.log(user.user.username)
     const pages = ['User Details','Grocery cost','History','Login','Logout','Register'];
-    const user=null;
     const newPage=filterPages(pages,user)//!Filter pages array.When user login then show logout button and when user logout then show login button. 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -98,11 +99,10 @@ const Navbar=()=>{
                 <Link style={{textDecoration:'none',color:'black'}} to='/admin'>
                     <Button >Admin</Button>
                 </Link><br />
-                <Link to='/user'>
-                <Badge sx={{marginTop:'20px'}} badgeContent='S.H.Topu' color='secondary'>
+                <Link style={{display:'flex',justifyContent:'center'}} to='/user'>
                 <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
-                </Badge>
                 </Link>
+                <Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
               </Box>
             </Menu>
           </Box>
@@ -146,14 +146,14 @@ const Navbar=()=>{
                     </Button>
                 </Link>
           </Box>
-          <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
                 <Link to='/user'>
-                <Badge badgeContent='S.H.Topu' color='secondary'>
                 <AccountCircleIcon sx={{color:'white',my:2}}></AccountCircleIcon>
-                </Badge>
                 </Link>
           </Box>
-          
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex',marginTop:'-5px'} }}>
+                <Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
