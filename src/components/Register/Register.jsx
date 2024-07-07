@@ -1,12 +1,15 @@
 import { Button } from "@mui/material";
+import { action, useStoreActions } from "easy-peasy";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 
 const Register = () => {
+    const {fetchUser}=useStoreActions(action=>action.user)
     const {register,handleSubmit,formState:{errors}}=useForm()
     const onSubmit=(data)=>{
-        console.log(data)
+        fetchUser(data)
     }
     return (
         <div style={{display:'flex',justifyContent:'center'}}>

@@ -5,10 +5,15 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { StoreProvider } from 'easy-peasy';
+import store from './store/index.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
-  <App></App>
+  <StoreProvider store={store}>
+    <App></App>
+  </StoreProvider>
+  
 )
