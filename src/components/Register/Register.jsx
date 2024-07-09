@@ -1,15 +1,23 @@
 import { Button } from "@mui/material";
-import { action, useStoreActions } from "easy-peasy";
-import { useEffect } from "react";
+import { useStoreActions } from "easy-peasy";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Register = () => {
-    const {fetchUser}=useStoreActions(action=>action.user)
+    const navigate=useNavigate()
+    const [error,setError]=useState(null)
+    const {registerUser}=useStoreActions(action=>action.user)
     const {register,handleSubmit,formState:{errors}}=useForm()
-    const onSubmit=(data)=>{
-        fetchUser(data)
+    const onSubmit=async(data)=>{
+        try{
+            await registerUser(data)
+            navigate('/')
+        }catch(error){
+            console.log(error)
+            setError('error')
+        }
     }
     return (
         <div style={{display:'flex',justifyContent:'center'}}>
@@ -37,6 +45,11 @@ const Register = () => {
                     </div>
                     <Button type="submit" sx={{width:'70%'}} variant="contained">SignUp</Button>
                 </form>
+                {
+                    
+                        error&&<h5 style={{color:'red',textAlign:'center'}}>Registration Failed...<span style={{color:'green'}}>Email or Username are already taken</span></h5>
+                    
+                }
                 <h5 style={{textAlign:'center'}}>Already have an account? Please.......<Link to='/login'>Login</Link></h5>
             </div>
         </div>

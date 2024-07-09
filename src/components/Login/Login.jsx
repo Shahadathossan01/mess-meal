@@ -1,12 +1,23 @@
 import { Button } from "@mui/material";
+import { useStoreActions} from "easy-peasy";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Login= () => {
+    const [error,setError]=useState(null)
+    const navigate=useNavigate()
+    const {loginUser}=useStoreActions(action=>action.user)
     const {register,handleSubmit,formState:{errors}}=useForm()
-    const onSubmit=(data)=>{
-        console.log(data)
+    const onSubmit=async(data)=>{
+        try{
+            await loginUser(data)
+            navigate('/user details')
+        }catch(e){
+            console.error('Login Failed',e)
+            setError('Login Failed')
+        }
     }
     return (
         <div style={{display:'flex',justifyContent:'center'}}>
@@ -29,6 +40,9 @@ const Login= () => {
                     </div>
                     <Button type="submit" sx={{width:'70%'}} variant="contained">Login</Button>
                 </form>
+                {
+                    error&&<h5 style={{color:'red',textAlign:'center'}}>Login Failed...<span style={{color:'green'}}>Invalid identifier or password</span></h5>
+                }
                 <h5 style={{textAlign:'center'}}>Already have an account? Please.......<Link to='/Register'>Register</Link></h5>
             </div>
         </div>

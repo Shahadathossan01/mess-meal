@@ -1,45 +1,13 @@
 import axios from "axios";
 import { action, createStore, thunk } from "easy-peasy";
-// const user={
-//     id:1,
-//     username:'topu',
-//     email:'topu@gmail.com',
-//     day1:{
-//         backfast:0,
-//         lunch:1,
-//         dinner:1,
-//     },
-//     day2:{
-//         backfast:0,
-//         lunch:1,
-//         dinner:1,
-//     },
-//     day3:{
-//         backfast:0,
-//         lunch:1,
-//         dinner:1,
-//     },
-//     day4:{
-//         backfast:0,
-//         lunch:1,
-//         dinner:1,
-//     },
-//     day5:{
-//         backfast:0,
-//         lunch:1,
-//         dinner:1,
-//     }
-// }
+
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
-    error:null,
     addUser:action((state,payload)=>{
         state.user=payload;
     }),
-    addError:action((state,payload)=>{
-        state.error=payload;
-    }),
-    fetchUser:thunk(async(actions,payload)=>{
+
+    registerUser:thunk(async(actions,payload)=>{
         console.log(payload)
         try{
             const {data}=await axios.post('http://localhost:1337/api/auth/local/register',{
@@ -204,13 +172,85 @@ const userModel={
             })
             actions.addUser(data)
             localStorage.setItem('userData',JSON.stringify(data))
+            console.log(data)
+            return data;
         }catch(error){
-            actions.addError(error)
+            console.log(error)
+            throw error
         }
-    })
+    }),
+    loginUser:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.post('http://localhost:1337/api/auth/local',{
+                identifier:payload.email,
+                password:payload.password
+            })
+            actions.addUser(data)
+            localStorage.setItem('userData',JSON.stringify(data))
+            return data;
+
+        }catch(error){
+            console.error(error)
+            throw error;
+        }
+    }),
+    logoutUser:action(state=>{
+        state.user=null
+        localStorage.removeItem('userData')
+    }),
+
+
+    data:null,
+    addData:action((state,payload)=>{
+        state.data=payload
+    }),
+    fetchAllUser:thunk(async(actions)=>{
+        try{
+            const {data}=await axios.get('http://localhost:1337/api/users')
+            actions.addData(data)
+        }catch(error){
+            console.log(error)
+        }
+    }),
+
+    beforeUpdatedData:null,
+    addBeforeUpdatedData:action((state,payload)=>{
+        state.beforeUpdatedData=payload
+    }),
+    updateUserData:thunk(async(actions,payload)=>{
+        console.log('updateddata',typeof(payload.data.backfast))
+        // console.log('id',payload.id)
+        // console.log('b',payload.data.backfast)
+        // console.log('l',payload.data.lunch)
+        // console.log('d',payload.data.dinner)
+        try{
+           const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+        
+                [payload.date]:{
+                    backfast:payload.data.backfast,
+                    lunch:payload.data.lunch,
+                    dinner:payload.data.dinner
+                }
+            })
+            actions.addBeforeUpdatedData(data)
+
+        }catch(e){
+            console.error(e)
+            throw Error;
+        }
+    }),
+   
 }
+// const allUserModel={
+    
+// }
+// const updateUserModel={
+   
+// }
 const store=createStore({
     user:userModel,
+    // allUser:allUserModel,
+    // updateUser:updateUserModel
 })
 
 export default store;

@@ -14,10 +14,10 @@ import { Link } from 'react-router-dom';
 import{filterPages} from '../../utils/index'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {Chip } from '@mui/material';
-import { useStoreState } from 'easy-peasy';
+import { action, useStoreActions, useStoreState } from 'easy-peasy';
 const Navbar=()=>{
     const {user}=useStoreState(state=>state.user)
-    console.log(user.user.username)
+    const {logoutUser}=useStoreActions(action=>action.user)
     const pages = ['User Details','Grocery cost','History','Login','Logout','Register'];
     const newPage=filterPages(pages,user)//!Filter pages array.When user login then show logout button and when user logout then show login button. 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -88,13 +88,48 @@ const Navbar=()=>{
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {newPage.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link style={{color:'black',textDecoration:'none'}} to={page}>
-                   <Typography textAlign="center">{page}</Typography>
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to='/user details' style={{color:'black',textDecoration:'none'}}>
+                   <Typography textAlign="center">
+                    User Details
+                   </Typography>
                   </Link>
                 </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to='/Grocery Cost' style={{color:'black',textDecoration:'none'}}>
+                   <Typography textAlign="center">
+                    Grocery Cost
+                   </Typography>
+                  </Link>
+                </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to='/history' style={{color:'black',textDecoration:'none'}}>
+                   <Typography textAlign="center">
+                    History <span style={{color:'red'}}>5</span>
+                   </Typography>
+                  </Link>
+                </MenuItem>
+                {
+                  user?<MenuItem onClick={()=>{handleCloseNavMenu,logoutUser()}}>
+                   <Typography textAlign="center">
+                    Logout
+                   </Typography>
+                </MenuItem>:
+                  <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to='/login' style={{color:'black',textDecoration:'none'}}>
+                   <Typography textAlign="center">
+                    Login
+                   </Typography>
+                  </Link>
+                </MenuItem>
+                }
+              <MenuItem onClick={handleCloseNavMenu}>
+                  <Link to='/register' style={{color:'black',textDecoration:'none'}}>
+                   <Typography textAlign="center">
+                    Register
+                   </Typography>
+                  </Link>
+                </MenuItem>
               <Box sx={{textAlign:'center',display:'block'}}>
                 <Link style={{textDecoration:'none',color:'black'}} to='/admin'>
                     <Button >Admin</Button>
@@ -102,7 +137,9 @@ const Navbar=()=>{
                 <Link style={{display:'flex',justifyContent:'center'}} to='/user'>
                 <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
                 </Link>
-                <Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                {
+                  user&&<Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                }
               </Box>
             </Menu>
           </Box>
@@ -128,7 +165,7 @@ const Navbar=()=>{
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {newPage.map((page) => (
+            {/* {newPage.map((page) => (
               <Link to={page} style={{textDecoration:'none'}} key={page}>
                 <Button
                 onClick={handleCloseNavMenu}
@@ -137,7 +174,51 @@ const Navbar=()=>{
                 {page}
               </Button>
               </Link>
-            ))}
+            ))} */}
+              <Link to='/user details'  style={{textDecoration:'none'}}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                  user details
+                  </Button>
+              </Link>
+              <Link  style={{textDecoration:'none'}}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                  Grocery cost
+                  </Button>
+              </Link>
+              <Link to='history' style={{textDecoration:'none'}}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                  History <span style={{color:'red'}}>5</span>
+                  </Button>
+              </Link>
+              {
+                user?<Button
+                onClick={()=>{handleCloseNavMenu,logoutUser()}}
+                sx={{ my: 2, color: 'white', display: 'block' }}>
+              Logout
+              </Button>
+              :
+                <Link to='/login'  style={{textDecoration:'none'}}>
+                <Button
+                  onClick={()=>{handleCloseNavMenu,logoutUser()}}
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                Login
+                </Button>
+            </Link>
+              
+              }
+              <Link to='register' style={{textDecoration:'none'}}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                  Register
+                  </Button>
+              </Link>
           </Box>
           <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex'} }}>
                 <Link to='/admin'>
@@ -152,7 +233,9 @@ const Navbar=()=>{
                 </Link>
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex',marginTop:'-5px'} }}>
-                <Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                {
+                  user&&<Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                }
           </Box>
         </Toolbar>
       </Container>
