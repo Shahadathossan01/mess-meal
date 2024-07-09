@@ -5,7 +5,6 @@ import FormDialog from '../FromDialog/FromDialog';
 import { useState } from 'react';
 const DetailsCard = ({data,id}) => {
     const [open, setOpen] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,7 +37,9 @@ const DetailsCard = ({data,id}) => {
                 <button style={{height:'30px',width:'30px'}}>
                     <DoneOutlineIcon style={{height:'100%',width:'100%'}}></DoneOutlineIcon>
                 </button><br />
-                <span>update:7/8/2024</span>
+                {
+                    data.updatedDateTime&&<span>update:{data.updatedDateTime}</span>
+                }
             </div>
             <FormDialog date={data.day} id={id} handleClickOpen={handleClickOpen} handleClose={handleClose} open={open}></FormDialog>
         </div>

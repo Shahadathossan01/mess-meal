@@ -5,6 +5,7 @@ const reduceObjectToArray=obj=>{
             acc.push({
                 username:obj.username,
                 day:cur,
+                updatedDateTime:obj.updatedDateTime,
                 ...obj[cur]
             })
         }
