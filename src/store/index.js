@@ -252,10 +252,6 @@ const userModel={
         const date=new Date()
         const formattedDate=format(date,'MM:dd:yyyy HH:mm a')
         console.log(formattedDate)
-        // console.log('id',payload.id)
-        // console.log('b',payload.data.backfast)
-        // console.log('l',payload.data.lunch)
-        // console.log('d',payload.data.dinner)
         try{
            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
                 [payload.date]:{
@@ -274,16 +270,79 @@ const userModel={
     }),
    
 }
-// const allUserModel={
+const groceryCostModel={
+    grocery:null,
+    groceryItems:null,
+    updatedGroceryItem:null,
+    deleteGrocerydata:null,
+    addGrocery:action((state,payload)=>{
+        state.grocery=payload
+    }),
+    createGrocery:thunk(async(actions,payload)=>{
+        console.log(payload)
+        try{
+            const {data}=await axios.post('http://localhost:1337/api/grocery-costs',{
+                data:{
+                    grocery:payload.data.items,
+                    amount:payload.data.amount,
+                    dateTime:payload.startDate
+                }
+            })
+            actions.addGrocery(data)
+        }catch(e){
+            console.log(e)
+            throw Error
+        }
+    }),
+    addGroceryItems:action((state,payload)=>{
+        state.groceryItems=payload
+    }),
+    fetchAllGroceryItems:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.get('http://localhost:1337/api/grocery-costs')
+            console.log(data)
+            actions.addGroceryItems(data)
+        }catch(e){
+            console.log(e)
+            throw Error
+        }
+    }),
+    addUpdatedGroceryItem:action((state,payload)=>{
+        state.updatedGroceryItem=payload
+    }),
+    updateGrocery:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.put(`http://localhost:1337/api/grocery-costs/${payload.id}`,{
+                data:{
+                    grocery:payload.data.items,
+                    amount:payload.data.amount
+                }
+            })
+            actions.addUpdatedGroceryItem(data.data)
+        }catch(e){
+            console.log(e)
+            throw Error
+        }
+    }),
+    addDeleteGrocery:action((state,payload)=>{
+        state.deleteGrocerydata=payload
+    }),
+    deleteGrocery:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.delete(`http://localhost:1337/api/grocery-costs/${payload}`)
+            actions.addDeleteGrocery(data.data)
+        }catch(e){
+            console.log(e)
+            throw Error;
+        }
+    })
     
-// }
-// const updateUserModel={
-   
-// }
+
+}
 const store=createStore({
     user:userModel,
-    // allUser:allUserModel,
-    // updateUser:updateUserModel
+    groceryCost:groceryCostModel
+    
 })
 
 export default store;

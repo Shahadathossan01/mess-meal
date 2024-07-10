@@ -182,7 +182,7 @@ const Navbar=()=>{
                   user details
                   </Button>
               </Link>
-              <Link  style={{textDecoration:'none'}}>
+              <Link to='/grocery cost' style={{textDecoration:'none'}}>
                   <Button
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}>
