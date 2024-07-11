@@ -4,11 +4,11 @@ import { useEffect } from "react";
 const UserDetails = () => {
     
     const {fetchAllUser}=useStoreActions(action=>action.user)
-    const {data,beforeUpdatedData,totalMeal}= useStoreState(state=>state.user)
+    const {data,beforeUpdatedData,totalMeal,updatedTotalPayUser}= useStoreState(state=>state.user)
     console.log(data)
     useEffect(()=>{
         fetchAllUser()
-    },[beforeUpdatedData,totalMeal])
+    },[beforeUpdatedData,totalMeal,updatedTotalPayUser])
     if(!data){
         return
     }

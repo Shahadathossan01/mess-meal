@@ -1,18 +1,13 @@
 import axios from "axios";
 import { format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
-import { calculateTotalMeal, reduceObjectToArray } from "../utils";
+import { calculateTotalMeal } from "../utils";
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
     addUser:action((state,payload)=>{
         state.user=payload;
     }),
-    totalMeal:null,
-    addTotalMeal:action((state,payload)=>{
-        state.totalMeal=payload
-    }),
-
     registerUser:thunk(async(actions,payload)=>{
         console.log(payload)
         try{
@@ -241,7 +236,7 @@ const userModel={
         console.log(payload)
         state.data=payload.map((user)=>({
             ...user,
-            totalMeal:calculateTotalMeal(user).totalMeal
+            totalMeal:calculateTotalMeal(user).totalMeal //!calculate user TOTAL MEAL
         }))
     }),
     fetchAllUser:thunk(async(actions)=>{
@@ -252,11 +247,7 @@ const userModel={
             console.log(error)
         }
     }),
-    calculateUserData:action(async(state,payload)=>{
-            
-
-    }),
-
+    
     beforeUpdatedData:null,
     addBeforeUpdatedData:action((state,payload)=>{
         state.beforeUpdatedData=payload
@@ -281,7 +272,22 @@ const userModel={
             throw Error;
         }
     }),
-   
+    updatedTotalPayUser:null,
+    addUpdatedTotalPayUser:action((state,payload)=>{
+        state.updatedTotalPayUser=payload;
+    }),
+    updateUserTotaPay:thunk(async(actions,payload)=>{
+        console.log(payload)
+        try{
+            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+                 totalPay:payload.data.totalPay
+             })
+             actions.addUpdatedTotalPayUser(data)
+         }catch(e){
+             console.error(e)
+             throw Error;
+         }
+    })
 }
 const groceryCostModel={
     grocery:null,

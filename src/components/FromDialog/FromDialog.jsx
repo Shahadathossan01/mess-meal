@@ -7,8 +7,8 @@ import { useStoreActions} from "easy-peasy";
 const FormDialog=({handleClose,open,id,date})=>{
   const defaultValues={
     backfast:0,
-    lunch:1,
-    dinner:1
+    lunch:0,
+    dinner:0
   }
     const {updateUserData}=useStoreActions(action=>action.user)
     const {register,handleSubmit}=useForm({defaultValues})
