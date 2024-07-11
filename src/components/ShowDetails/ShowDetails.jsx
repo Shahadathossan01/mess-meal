@@ -1,4 +1,5 @@
 
+import { useStoreState } from "easy-peasy";
 import { reduceObjectToArray } from "../../utils";
 import DetailsCard from "../DetailsCard/DetailsCard";
 
@@ -15,6 +16,7 @@ const ShowDetails = ({item}) => {
                 ))
             }
             </div>
+            <h1>{item.totalMeal}</h1>
         </div>
     );
 };

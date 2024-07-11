@@ -3,6 +3,7 @@ import { useState } from "react";
 import ItemsModal from "../FromDialog/ItemsModal/ItemsModal";
 import GroceryItemsTable from "../GroceryItemsTable/GroceryItemsTable";
 import { useStoreActions} from "easy-peasy";
+import { Button } from "@mui/material";
 
 const GroceryCost = () => {
   const {createGrocery}=useStoreActions(action=>action.groceryCost)
@@ -17,7 +18,7 @@ const GroceryCost = () => {
     return (
         <div>
             <h1>Grocery Cost</h1>
-            <button onClick={handleClickOpen}>Add Items</button>
+            <Button variant="contained" color="success"   onClick={handleClickOpen}>Add Items</Button>
             <ItemsModal handleData={createGrocery} handleClose={handleClose} handleClickOpen={handleClickOpen} open={open}></ItemsModal>
             <div>
               <GroceryItemsTable></GroceryItemsTable>

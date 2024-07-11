@@ -1,11 +1,16 @@
 import axios from "axios";
 import { format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
+import { calculateTotalMeal, reduceObjectToArray } from "../utils";
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
     addUser:action((state,payload)=>{
         state.user=payload;
+    }),
+    totalMeal:null,
+    addTotalMeal:action((state,payload)=>{
+        state.totalMeal=payload
     }),
 
     registerUser:thunk(async(actions,payload)=>{
@@ -231,9 +236,13 @@ const userModel={
     }),
 
 
-    data:null,
+    data:[],
     addData:action((state,payload)=>{
-        state.data=payload
+        console.log(payload)
+        state.data=payload.map((user)=>({
+            ...user,
+            totalMeal:calculateTotalMeal(user).totalMeal
+        }))
     }),
     fetchAllUser:thunk(async(actions)=>{
         try{
@@ -242,6 +251,10 @@ const userModel={
         }catch(error){
             console.log(error)
         }
+    }),
+    calculateUserData:action(async(state,payload)=>{
+            
+
     }),
 
     beforeUpdatedData:null,
@@ -275,6 +288,7 @@ const groceryCostModel={
     groceryItems:null,
     updatedGroceryItem:null,
     deleteGrocerydata:null,
+    totalAmount:null,
     addGrocery:action((state,payload)=>{
         state.grocery=payload
     }),
@@ -297,10 +311,18 @@ const groceryCostModel={
     addGroceryItems:action((state,payload)=>{
         state.groceryItems=payload
     }),
+    addTotalAmount:action((state,payload)=>{
+        state.totalAmount=payload
+    }),
     fetchAllGroceryItems:thunk(async(actions,payload)=>{
         try{
             const {data}=await axios.get('http://localhost:1337/api/grocery-costs')
-            console.log(data)
+            const total=0
+            const totalAmount=data.data.reduce((acc,cur)=>{
+                acc+=cur.attributes.amount;
+                return acc;
+            },total)
+            actions.addTotalAmount(totalAmount)
             actions.addGroceryItems(data)
         }catch(e){
             console.log(e)
@@ -335,7 +357,8 @@ const groceryCostModel={
             console.log(e)
             throw Error;
         }
-    })
+    }),
+
     
 
 }

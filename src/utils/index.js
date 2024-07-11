@@ -31,8 +31,22 @@ const numberArray=()=>{
     }
     return array;
 }
+const calculateTotalMeal=(user)=>{
+    console.log(user)
+            const totalMeal=0
+            const totalPay=0
+            const arrayitem= reduceObjectToArray(user)
+            console.log(arrayitem)
+                const userTotalMeal= arrayitem.reduce((acc,cur)=>{
+                        acc.totalMeal+=Number(cur.backfast)+Number(cur.lunch)+Number(cur.dinner)
+                        return acc;
+                },{totalMeal,totalPay})
+                return(userTotalMeal)
+}
+
 export  {
     filterPages,
     reduceObjectToArray,
-    numberArray
+    numberArray,
+    calculateTotalMeal,
 };
