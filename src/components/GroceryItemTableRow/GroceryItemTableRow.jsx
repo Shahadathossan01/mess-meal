@@ -27,7 +27,7 @@ const GroceryItemTableRow = ({item,updateGrocery,id}) => {
                             {format(item.attributes.dateTime,'MM/dd/yyyy')+' '+format(item.attributes.dateTime,'HH:mm aa')}
                         </TableCell>
                         <TableCell >
-                            <Button onClick={handleClickOpen}>Edit{id}
+                            <Button onClick={handleClickOpen}>Edit
                             </Button>
                         </TableCell>
                         <TableCell >

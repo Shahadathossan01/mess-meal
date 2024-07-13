@@ -3,7 +3,10 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import FormDialog from '../FromDialog/FromDialog';
 import { useState } from 'react';
+import { Button } from '@mui/material';
+import { useStoreState } from 'easy-peasy';
 const DetailsCard = ({data,id}) => {
+    const {user}=useStoreState(state=>state.user)
     const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -12,11 +15,14 @@ const DetailsCard = ({data,id}) => {
   const handleClose = () => {
     setOpen(false);
   };
+
     return (
-        <div style={{marginTop:'30px',border:'2px solid gray',textAlign:'center'}}>
+        <div style={{border:'2px solid gray',textAlign:'center',height:'180px',width:'150px',
+            backgroundColor:'#FBF6E2',
+        marginBottom:'5px'}}>
             <table>
-                <tr>
-                    <span style={{paddingLeft:'20px'}}>date-{data.day.replace('day','')}</span>
+                <tr style={{textAlign:'center',}}>
+                    <Button variant="contained"  style= {{paddingLeft:'10px',marginLeft:'30px',backgroundColor:'#EF9C66'}}>date-{data.day.replace('day','')}</Button>
                 </tr>
                 <tr>
                     <th>B</th>
@@ -30,15 +36,20 @@ const DetailsCard = ({data,id}) => {
                 </tr>
             </table>
             <div>
-                <button onClick={handleClickOpen} style={{height:'30px',width:'30px'}}>
+                <div style={{display:'flex',justifyContent:'space-evenly'}}>
+                <button disabled={user?.user.username!=data.username}  onClick={handleClickOpen} style={{height:'30px',width:'30px'}}>
                     <EditIcon style={{height:'100%',width:'100%'}}></EditIcon>
                     {/* <EditOffIcon></EditOffIcon> */}
                 </button>
                 <button style={{height:'30px',width:'30px'}}>
                     <DoneOutlineIcon style={{height:'100%',width:'100%'}}></DoneOutlineIcon>
                 </button><br />
+                </div>
                 {
-                    data.updatedDateTime&&<span>update:{data.updatedDateTime}</span>
+                    data.updatedDateTime&&<div> 
+                        <span>last Update</span><br />
+                        <span>{data.updatedDateTime}</span>
+                        </div>
                 }
             </div>
             <FormDialog date={data.day} id={id} handleClickOpen={handleClickOpen} handleClose={handleClose} open={open}></FormDialog>

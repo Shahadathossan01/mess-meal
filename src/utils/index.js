@@ -32,21 +32,73 @@ const numberArray=()=>{
     return array;
 }
 const calculateTotalMeal=(user)=>{
-    console.log(user)
             const totalMeal=0
             const totalPay=0
             const arrayitem= reduceObjectToArray(user)
-            console.log(arrayitem)
                 const userTotalMeal= arrayitem.reduce((acc,cur)=>{
                         acc.totalMeal+=Number(cur.backfast)+Number(cur.lunch)+Number(cur.dinner)
                         return acc;
                 },{totalMeal,totalPay})
                 return(userTotalMeal)
 }
-
+const calculateAllUsersTotalMeal=(users)=>{
+   return users.reduce((acc,cur)=>{
+        acc+=Number(cur.totalMeal)
+        return acc;
+    },0)
+}
+const calculateAllUsersTotalPay=(users)=>{
+   return users.reduce((acc,cur)=>{
+        acc+=Number(cur.totalPay)
+        return acc;
+    },0)
+}
+const calculateGroceryTotalAmount=(data)=>{
+    return data.reduce((acc,cur)=>{
+        acc+=cur.attributes.amount
+        return acc;
+    },0)
+}
+const allUsersTotalMeals=(data)=>{
+    return data.reduce((acc,cur)=>{
+        acc+=cur.totalMeal;
+        return acc;
+    },0)
+}
+const totalReturn=(data,mealRate)=>{
+    return data.reduce((acc,cur)=>{
+        const result=cur.totalMeal*mealRate-cur.totalPay;
+        if(result<1){
+            acc+=result;
+        }
+        return acc;
+    },0)
+}
+const totalAdd=(data,mealRate)=>{
+    return data.reduce((acc,cur)=>{
+        const result=cur.totalMeal*mealRate-cur.totalPay;
+        if(result>1){
+            acc+=result;
+        }
+        return acc;
+    },0)
+}
+const totalMealCost=(data,mealRate)=>{
+    return data.reduce((acc,cur)=>{
+        acc+=cur.totalMeal*mealRate
+        return acc;
+    },0)
+}
 export  {
     filterPages,
     reduceObjectToArray,
     numberArray,
     calculateTotalMeal,
+    calculateAllUsersTotalMeal,
+    calculateAllUsersTotalPay,
+    calculateGroceryTotalAmount,
+    allUsersTotalMeals,
+    totalReturn,
+    totalAdd,
+    totalMealCost
 };

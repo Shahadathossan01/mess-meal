@@ -1,7 +1,7 @@
 import axios from "axios";
 import { format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
-import { calculateTotalMeal } from "../utils";
+import { calculateAllUsersTotalMeal, calculateGroceryTotalAmount, calculateTotalMeal } from "../utils";
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
@@ -233,7 +233,6 @@ const userModel={
 
     data:[],
     addData:action((state,payload)=>{
-        console.log(payload)
         state.data=payload.map((user)=>({
             ...user,
             totalMeal:calculateTotalMeal(user).totalMeal //!calculate user TOTAL MEAL
@@ -255,7 +254,6 @@ const userModel={
     updateUserData:thunk(async(actions,payload)=>{
         const date=new Date()
         const formattedDate=format(date,'MM:dd:yyyy HH:mm a')
-        console.log(formattedDate)
         try{
            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
                 [payload.date]:{
@@ -291,10 +289,9 @@ const userModel={
 }
 const groceryCostModel={
     grocery:null,
-    groceryItems:null,
+    groceryItems:[],
     updatedGroceryItem:null,
     deleteGrocerydata:null,
-    totalAmount:null,
     addGrocery:action((state,payload)=>{
         state.grocery=payload
     }),
@@ -315,20 +312,14 @@ const groceryCostModel={
         }
     }),
     addGroceryItems:action((state,payload)=>{
-        state.groceryItems=payload
+        state.groceryItems={
+            ...payload,
+            totalAmount:calculateGroceryTotalAmount(payload.data)
+        }
     }),
-    addTotalAmount:action((state,payload)=>{
-        state.totalAmount=payload
-    }),
-    fetchAllGroceryItems:thunk(async(actions,payload)=>{
+    fetchAllGroceryItems:thunk(async(actions)=>{
         try{
             const {data}=await axios.get('http://localhost:1337/api/grocery-costs')
-            const total=0
-            const totalAmount=data.data.reduce((acc,cur)=>{
-                acc+=cur.attributes.amount;
-                return acc;
-            },total)
-            actions.addTotalAmount(totalAmount)
             actions.addGroceryItems(data)
         }catch(e){
             console.log(e)

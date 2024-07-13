@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { useStoreActions } from 'easy-peasy';
 const initValue=0
 const TotalPayUpdateModal=({handleClose,open,id})=>{
-    console.log(id)
     const {updateUserTotaPay}=useStoreActions(action=>action.user)
     const {register,handleSubmit}=useForm({initValue})
     const onSubmit=(data)=>{
@@ -32,7 +31,6 @@ const TotalPayUpdateModal=({handleClose,open,id})=>{
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          
         </DialogActions>
       </Dialog>
     </React.Fragment>

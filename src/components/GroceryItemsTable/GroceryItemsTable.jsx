@@ -18,8 +18,7 @@ const columns = [
   
 const GroceryItemsTable = () => {
     
-    const {grocery,groceryItems,updatedGroceryItem,deleteGrocerydata,totalAmount}=useStoreState(state=>state.groceryCost)
-    console.log(updatedGroceryItem)
+    const {grocery,groceryItems,updatedGroceryItem,deleteGrocerydata}=useStoreState(state=>state.groceryCost)
     const {fetchAllGroceryItems,updateGrocery}=useStoreActions(action=>action.groceryCost)
     useEffect(()=>{
         fetchAllGroceryItems()    
@@ -57,7 +56,7 @@ const GroceryItemsTable = () => {
             }
             <TableRow>
                 <TableCell></TableCell>
-                <TableCell style={{color:'white',backgroundColor:'gray'}}>Total Amount: {totalAmount}</TableCell>
+                <TableCell style={{color:'white',backgroundColor:'gray'}}>Total Amount: {groceryItems.totalAmount}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

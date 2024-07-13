@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.16.0",
     "@mui/material": "^5.16.0",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@react-pdf/renderer": "^3.4.4",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "easy-peasy": "^6.0.4",
