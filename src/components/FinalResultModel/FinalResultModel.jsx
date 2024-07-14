@@ -12,13 +12,28 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import FinalResultTable from '../FinalResultTable/FinalResultTable';
-import { PDFViewer } from '@react-pdf/renderer';
+import { usePDF } from 'react-to-pdf';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const FinalResultModel=({handleClose,open,data,monthName})=>{
 
+  const {allHistoryData,createdHistoryData}=useStoreState(state=>state.history)
+    const {fetchHistory}=useStoreActions(action=>action.history)
+    React.useEffect(()=>{
+        fetchHistory()
+    },[createdHistoryData])
+
+  const {createHistory}=useStoreActions(action=>action.history)
+  const {toPDF,targetRef}=usePDF({filename:'finalResult.pdf'})
+  
+ const handleClick=()=>{
+  toPDF()
+  handleClose()
+  createHistory({data,monthName,allHistoryData})
+ }
   return (
     <React.Fragment>
       <Dialog
@@ -40,14 +55,14 @@ const FinalResultModel=({handleClose,open,data,monthName})=>{
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Final Result
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
+            <Button autoFocus color="inherit" onClick={handleClick}>
+              save as pdf
             </Button>
           </Toolbar>
         </AppBar>
+        <div ref={targetRef}>
         <FinalResultTable monthName={monthName} data={data}></FinalResultTable>
-        
-        
+        </div>
       </Dialog>
     </React.Fragment>
   );

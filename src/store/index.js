@@ -1,7 +1,7 @@
 import axios from "axios";
-import { format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
-import { calculateAllUsersTotalMeal, calculateGroceryTotalAmount, calculateTotalMeal } from "../utils";
+import { calculateGroceryTotalAmount, calculateTotalMeal } from "../utils";
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
@@ -355,13 +355,69 @@ const groceryCostModel={
             throw Error;
         }
     }),
+}
+const historyModel={
+    createdHistoryData:null,
+    allHistoryData:[],
+    addCreateHistory:action((state,paylod)=>{
+        state.createdHistoryData=paylod
+    }),
+    addAllHistoryData:action((state,payload)=>{
+        state.allHistoryData=payload
+    }),
+    createHistory:thunk(async(actions,payload)=>
+        {
+            if(payload.allHistoryData.data.length==0){
+                try{
+                    const {data}=await axios.post('http://localhost:1337/api/histories',{
+                        data:{
+                            finalResult:payload.data,
+                            monthName:payload.monthName
+                        }
+                    })
+                    
+                    actions.addCreateHistory(data)
+                    
+                }catch(e){
+                    console.log(e)
+                    throw Error;
+                }
+            }
+            payload.allHistoryData.data.map(async item=>{
+                if((item.attributes.monthName!=payload.monthName)){
+                    try{
+                        const {data}=await axios.post('http://localhost:1337/api/histories',{
+                            data:{
+                                finalResult:payload.data,
+                                monthName:payload.monthName
+                            }
+                        })
+                        
+                        actions.addCreateHistory(data)
+                        
+                    }catch(e){
+                        console.log(e)
+                        throw Error;
+                    }
+                }
+            })
+       
+    }),
+    fetchHistory:thunk(async(actions)=>{
+        try{
+            const {data}=await axios.get('http://localhost:1337/api/histories')
 
-    
-
+            actions.addAllHistoryData(data)
+        }catch(e){
+            console.log(e)
+            throw Error;
+        }
+    })
 }
 const store=createStore({
     user:userModel,
-    groceryCost:groceryCostModel
+    groceryCost:groceryCostModel,
+    history:historyModel
     
 })
 

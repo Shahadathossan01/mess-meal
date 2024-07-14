@@ -8,20 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { calculateAllUsersTotalMeal, calculateAllUsersTotalPay, totalAdd, totalMealCost, totalReturn, } from '../../utils';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Chip } from '@mui/material';
-
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
-});
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -58,11 +44,11 @@ const FinalResultTable=({data,monthName})=>{
       return
     }
   return (
-        <div style={{paddingTop:'5px'}}>
+          <div style={{paddingTop:'5px'}}>
       <div style={{display:'flex',justifyContent:'space-around'}}>
         <h3 style={{color:'#E09540'}}>Meal Rate: {mealRate}<hr></hr></h3>
-        <h3>
-        <Chip  label={monthName?.toUpperCase()} color="secondary" />
+        <h3 style={{color:'#4540E0'}}>
+          {monthName}<hr></hr>
         </h3>
         <h3 style={{color:'#E09540'}}>Overall Cost: {groceryItems.totalAmount}<hr></hr></h3>
       </div>
@@ -106,7 +92,6 @@ const FinalResultTable=({data,monthName})=>{
       </Table>
     </TableContainer>
         </div>
-        
   );
 }
 export default FinalResultTable;

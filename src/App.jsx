@@ -4,6 +4,7 @@ import UserDetails from "./components/UserDetails/UserDetails"
 import Register from "./components/Register/Register"
 import Login from "./components/Login/Login"
 import GroceryCost from "./components/GroceryCost/GroceryCost"
+import History from "./components/History/History"
 
 function App() {
   const router=createBrowserRouter([
@@ -13,7 +14,8 @@ function App() {
         {path:'/User Details',element:<UserDetails></UserDetails>},
         {path:'/Register',element:<Register></Register>},
         {path:'/Login',element:<Login></Login>},
-        {path:'/Grocery Cost',element:<GroceryCost></GroceryCost>}
+        {path:'/Grocery Cost',element:<GroceryCost></GroceryCost>},
+        {path:'/history',element:<History></History>}
       ]
     }
   ])

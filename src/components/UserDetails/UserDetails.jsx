@@ -20,7 +20,7 @@ const UserDetails = () => {
         let monthName=localStorage.getItem('monthName')
         if(!monthName){
             const date=new Date()
-            const monthName=format(date,'MMM d, yyyy')
+            const monthName=format(date,'MMMM')
             localStorage.setItem('monthName',monthName)
         }
         setMonthName(monthName)
