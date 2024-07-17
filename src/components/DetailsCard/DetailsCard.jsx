@@ -7,7 +7,6 @@ import { Button } from '@mui/material';
 import { useStoreState } from 'easy-peasy';
 const DetailsCard = ({data,id}) => {
     const {user}=useStoreState(state=>state.user)
-    console.log(user)
     const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);

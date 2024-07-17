@@ -134,6 +134,8 @@ const Navbar=()=>{
                 <Link style={{textDecoration:'none',color:'black'}} to='/admin'>
                     <Button >Admin</Button>
                 </Link><br />
+
+
                 <Link style={{display:'flex',justifyContent:'center'}} to='/user'>
                 <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
                 </Link>
@@ -220,17 +222,24 @@ const Navbar=()=>{
                   </Button>
               </Link>
           </Box>
-          <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex'} }}>
+          {/* <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex'} }}>
                 <Link to='/admin'>
                     <Button sx={{color:'white',my:2}}>
                     Admin
                     </Button>
                 </Link>
-          </Box>
+          </Box> */}
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                <Link to='/user'>
+                {
+                  user?.user.admin?<Link to='/admin'>
+                  <Button sx={{color:'white',my:2}}>
+                  Admin
+                  </Button>
+              </Link>:<Link to='/user'>
                 <AccountCircleIcon sx={{color:'white',my:2}}></AccountCircleIcon>
                 </Link>
+                }
+                
           </Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex',marginTop:'-5px'} }}>
                 {

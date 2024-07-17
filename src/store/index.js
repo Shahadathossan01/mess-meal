@@ -203,7 +203,6 @@ const userModel={
             })
             actions.addUser(data)
             localStorage.setItem('userData',JSON.stringify(data))
-            console.log(data)
             return data;
         }catch(error){
             console.log(error)
@@ -281,6 +280,50 @@ const userModel={
                  totalPay:payload.data.totalPay
              })
              actions.addUpdatedTotalPayUser(data)
+         }catch(e){
+             console.error(e)
+             throw Error;
+         }
+    }),
+    changePassword:thunk(async(actions,payload)=>{
+        const token=JSON.parse(localStorage.getItem('userData'))
+        try{
+            const {data}=await axios.post('http://localhost:1337/api/auth/change-password',
+            {
+                currentPassword:payload.data.current_password,
+                password:payload.data.new_password,
+                passwordConfirmation:payload.data.new_password
+            },
+            {
+                headers:{
+                    Authorization:`Bearer ${token.jwt}`
+                }
+            }
+        
+        )
+        localStorage.removeItem('userData')
+        localStorage.setItem('userData',JSON.stringify(data))
+        }catch(e){
+            console.log(e)
+        }
+    }),
+    changename:null,
+    addChangeName:action((state,payload)=>{
+        state.changename=payload
+    }),
+    changeUsername:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+                username:payload.data.username
+             })
+             const oldUser=JSON.parse(localStorage.getItem('userData'))
+             const newUser={
+                jwt:oldUser.jwt,
+                user:data
+             }
+             localStorage.removeItem('userData')
+             localStorage.setItem('userData',JSON.stringify(newUser))
+             actions.addUser(newUser)
          }catch(e){
              console.error(e)
              throw Error;
