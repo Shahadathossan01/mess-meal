@@ -13,7 +13,14 @@ const reduceObjectToArray=obj=>{
         return acc;
     },[])
 }
-
+const approvedUserArray=(array)=>{
+   return array.reduce((acc,cur)=>{
+        if(cur.approval){
+            acc.push(cur)
+        }
+        return acc;
+    },[])
+}
 const filterPages=(pages,user)=>{
     return pages.filter(page=>{
         if(user==null && page==='Logout'){
@@ -101,5 +108,6 @@ export  {
     allUsersTotalMeals,
     totalReturn,
     totalAdd,
-    totalMealCost
+    totalMealCost,
+    approvedUserArray
 };

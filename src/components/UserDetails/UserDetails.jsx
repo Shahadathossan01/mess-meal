@@ -1,7 +1,7 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import ShowDetails from "../ShowDetails/ShowDetails";
 import { useEffect, useState } from "react";
-import { calculateAllUsersTotalMeal, calculateAllUsersTotalPay } from "../../utils";
+import { approvedUserArray, calculateAllUsersTotalMeal, calculateAllUsersTotalPay } from "../../utils";
 import { format } from "date-fns";
 import { Button, Chip } from "@mui/material";
 import FinalResultModel from "../FinalResultModel/FinalResultModel";
@@ -31,7 +31,8 @@ const UserDetails = () => {
         fetchAllGroceryItems()
     },[])
     const {fetchAllUser}=useStoreActions(action=>action.user)
-    const {data,beforeUpdatedData,totalMeal,updatedTotalPayUser}= useStoreState(state=>state.user)
+    const {user,data,beforeUpdatedData,totalMeal,updatedTotalPayUser}= useStoreState(state=>state.user)
+    const approvalUserData=approvedUserArray(data)
     useEffect(()=>{
         fetchAllUser()
     },[beforeUpdatedData,totalMeal,updatedTotalPayUser])
@@ -49,12 +50,14 @@ const UserDetails = () => {
         </div><hr />
         <div style={{textAlign:'center',marginBottom:'10px'}}>
             <Chip  label={monthName?.toUpperCase()} color="secondary" />
-            <Button onClick={handleClickOpen} variant="contained" sx={{marginLeft:'10%'}}>Show Final Result</Button>
+            {
+                (user?.user.manager||user?.user.admin)&&<Button onClick={handleClickOpen} variant="contained" sx={{marginLeft:'10%'}}>Show Final Result</Button>
+            }
             <FinalResultModel monthName={monthName}  data={data} handleClose={handleClose} open={open}></FinalResultModel>
         </div>
             <div style={{display:'flex',gap:'20px',height:'700px',overflow:"scroll",width:'100%',marginTop:'-25px'}}>
             {
-                data?.map(item=>(
+                approvalUserData?.map(item=>(
                     <ShowDetails item={item} key={item.index}></ShowDetails>
                 ))
             }

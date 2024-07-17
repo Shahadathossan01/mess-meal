@@ -230,7 +230,7 @@ const userModel={
     }),
     data:[],
     addData:action((state,payload)=>{
-        const newArray=[]
+        let newArray=[]
         payload.map(item=>{
             if(item.admin!=true){
                 newArray.push(item)
@@ -333,16 +333,16 @@ const userModel={
              throw Error;
          }
     }),
-    changeStatusData:null,
-    addChangeStatusData:action((state,payload)=>{
-        state.changeStatusData=payload
+    changeApprovalData:null,
+    addChangeApprovalData:action((state,payload)=>{
+        state.changeApprovalData=payload
     }),
-    changeStatus:thunk(async(actions,payload)=>{
+    changeApproval:thunk(async(actions,payload)=>{
         try{
             const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
-                status:payload.status
+                approval:payload.status
              })
-            actions.addChangeStatusData(data)
+            actions.addChangeApprovalData(data)
          }catch(e){
              console.error(e)
              throw Error;
@@ -350,7 +350,7 @@ const userModel={
     }),
     deleteUserData:null,
     addDeleteUser:action((state,payload)=>{
-        state.deleteUser=payload
+        state.deleteUserData=payload
     }),
     deleteUser:thunk((async(actions,payload)=>{
         console.log(payload)
