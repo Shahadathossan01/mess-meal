@@ -228,8 +228,6 @@ const userModel={
         state.user=null
         localStorage.removeItem('userData')
     }),
-
-
     data:[],
     addData:action((state,payload)=>{
         state.data=payload.map((user)=>({
@@ -328,7 +326,36 @@ const userModel={
              console.error(e)
              throw Error;
          }
-    })
+    }),
+    changeStatusData:null,
+    addChangeStatusData:action((state,payload)=>{
+        state.changeStatusData=payload
+    }),
+    changeStatus:thunk(async(actions,payload)=>{
+        try{
+            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+                status:payload.status
+             })
+            actions.addChangeStatusData(data)
+         }catch(e){
+             console.error(e)
+             throw Error;
+         }
+    }),
+    deleteUserData:null,
+    addDeleteUser:action((state,payload)=>{
+        state.deleteUser=payload
+    }),
+    deleteUser:thunk((async(actions,payload)=>{
+        console.log(payload)
+        try{
+            const {data}=await axios.delete(`http://localhost:1337/api/users/${payload}
+            `)
+            actions.addDeleteUser(data)
+        }catch(e){
+            console.log(e)
+        }
+    }))
 }
 const groceryCostModel={
     grocery:null,
