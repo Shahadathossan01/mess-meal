@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { useStoreState } from 'easy-peasy';
 const DetailsCard = ({data,id}) => {
     const {user}=useStoreState(state=>state.user)
+    console.log(user)
     const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,7 +38,7 @@ const DetailsCard = ({data,id}) => {
             </table>
             <div>
                 <div style={{display:'flex',justifyContent:'space-evenly'}}>
-                <button disabled={user?.user.username!=data.username}  onClick={handleClickOpen} style={{height:'30px',width:'30px'}}>
+                <button disabled={(user?.user.manager)||(user?.user.username===data.username)||(user?.user.admin)?false:true} onClick={handleClickOpen} style={{height:'30px',width:'30px'}}>
                     <EditIcon style={{height:'100%',width:'100%'}}></EditIcon>
                     {/* <EditOffIcon></EditOffIcon> */}
                 </button>
