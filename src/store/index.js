@@ -230,7 +230,13 @@ const userModel={
     }),
     data:[],
     addData:action((state,payload)=>{
-        state.data=payload.map((user)=>({
+        const newArray=[]
+        payload.map(item=>{
+            if(item.admin!=true){
+                newArray.push(item)
+            }
+        })
+        state.data=newArray.map((user)=>({
             ...user,
             totalMeal:calculateTotalMeal(user).totalMeal //!calculate user TOTAL MEAL
         }))

@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import TotalPayUpdateModal from "../TotalPayUpdateModal/TotalPayUpdateModal";
 import { useState } from "react";
 const ShowDetails = ({item}) => {
-    const {user}=useStoreState(state=>state.user)
+    const {user,data}=useStoreState(state=>state.user)
     const [open, setOpen] =useState(false);
 
   const handleClickOpen = () => {
@@ -25,7 +25,12 @@ const ShowDetails = ({item}) => {
             </div>
                 <div style={{backgroundColor:'gray',textAlign:'center'}}>
                     <h4 style={{marginTop:'-20px',color:'white'}}>Pay: {item.totalPay}</h4>
-                    <Button sx={{marginTop:'-30px'}} variant="contained" size="small" color="success"onClick={handleClickOpen}>update</Button><TotalPayUpdateModal id={item.id} handleClose={handleClose} open={open}></TotalPayUpdateModal>
+                    {
+                        (user?.user.manager||user?.user.admin)&&<Button disabled={(user?.user.manager)||(user?.user.admin)?false:true} sx={{marginTop:'-30px'}} variant="contained" size="small" color="success"onClick={handleClickOpen}>update</Button>
+                    }
+                    
+                    
+                    <TotalPayUpdateModal id={item.id} handleClose={handleClose} open={open}></TotalPayUpdateModal>
                 </div>
                 <h5 style={{marginTop:'5px',textAlign:'center',marginBottom:'0px'}}>Total Meal: {item.totalMeal}</h5>
             </div>
