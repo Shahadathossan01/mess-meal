@@ -33,7 +33,7 @@ const Navbar=()=>{
 
 
   return (
-    <AppBar style={{padding:'10px 0px 0px 0px'}} position="static">
+    <AppBar position="static" style={{marginTop:'-8px'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link style={{color:'white'}}>
@@ -131,16 +131,18 @@ const Navbar=()=>{
                   </Link>
                 </MenuItem>
               <Box sx={{textAlign:'center',display:'block'}}>
-                <Link style={{textDecoration:'none',color:'black'}} to='/admin'>
-                    <Button >Admin</Button>
-                </Link><br />
-
-
-                <Link style={{display:'flex',justifyContent:'center'}} to='/user'>
-                <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
-                </Link>
                 {
-                  user&&<Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                  user?.user.admin&&<Link style={{textDecoration:'none',color:'black'}} to='/admin'>
+                  <Button >Admin</Button>
+                  </Link>
+                }
+                {
+                  (!user?.user.admin)&&(user?.user)&&<Link style={{display:'flex',justifyContent:'center'}} to='/user'>
+                  <><AccountCircleIcon sx={{color:'black',my:2}}></AccountCircleIcon></>
+                  </Link>
+                }
+                {
+                  user&&<Chip label={user?user?.user?.username:''}color='success' />
                 }
               </Box>
             </Menu>
@@ -167,16 +169,6 @@ const Navbar=()=>{
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {newPage.map((page) => (
-              <Link to={page} style={{textDecoration:'none'}} key={page}>
-                <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-              </Link>
-            ))} */}
               <Link to='/user details'  style={{textDecoration:'none'}}>
                   <Button
                     onClick={handleCloseNavMenu}
@@ -222,28 +214,27 @@ const Navbar=()=>{
                   </Button>
               </Link>
           </Box>
-          {/* <Box sx={{ flexGrow: 0.5, display: { xs: 'none', md: 'flex'} }}>
-                <Link to='/admin'>
-                    <Button sx={{color:'white',my:2}}>
-                    Admin
-                    </Button>
-                </Link>
-          </Box> */}
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
                 {
-                  user?.user.admin?<Link to='/admin'>
+                  user?.user.admin&&<Link to='/admin'>
                   <Button sx={{color:'white',my:2}}>
                   Admin
                   </Button>
-              </Link>:<Link to='/user'>
-                <AccountCircleIcon sx={{color:'white',my:2}}></AccountCircleIcon>
-                </Link>
-                }
+              </Link>
+              }
+              </Box>
+              {
+                (!user?.user.admin)&&(user?.user)&&<Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                <Link to='/user'>
+                  <AccountCircleIcon sx={{color:'white',my:2}}></AccountCircleIcon>
+                  </Link>
+                  </Box>
+              }
                 
-          </Box>
+          
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex',marginTop:'-5px'} }}>
                 {
-                  user&&<Link to='/user'><Button><Chip label={user?user?.user?.username:''}color='success' /></Button></Link>
+                  user&&<Chip label={user?user?.user?.username:''}color='success' />
                 }
           </Box>
         </Toolbar>

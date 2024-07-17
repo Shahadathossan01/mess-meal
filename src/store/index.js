@@ -361,7 +361,24 @@ const userModel={
         }catch(e){
             console.log(e)
         }
-    }))
+    })),
+    createdManagerData:null,
+    addCreatedManagerData:action((state,payload)=>{
+        state.createdManagerData=payload
+    }),
+    createManager:thunk((async(actions,payload)=>{
+        console.log(payload)
+        try{
+            const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+                manager:payload.status
+             })
+            actions.addCreatedManagerData(data)
+         }catch(e){
+             console.error(e)
+             throw Error;
+         }
+    })),
+    
 }
 const groceryCostModel={
     grocery:null,

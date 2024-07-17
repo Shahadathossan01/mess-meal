@@ -11,13 +11,12 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 const UserTableFromAdmin=()=>{
-const {data,changeApprovalData,deleteUserData}=useStoreState(state=>state.user)
-const {fetchAllUser,changeApproval,deleteUser}=useStoreActions(action=>action.user)
+const {data,changeApprovalData,deleteUserData,createdManagerData}=useStoreState(state=>state.user)
+const {fetchAllUser,changeApproval,deleteUser,createManager}=useStoreActions(action=>action.user)
 useEffect(()=>{
     fetchAllUser()
     console.log('data fetch')
-},[changeApprovalData,deleteUserData])
-console.log(deleteUserData)
+},[changeApprovalData,deleteUserData,createdManagerData])
 if(!data){
   return
 }
@@ -34,6 +33,7 @@ if(!data){
                 Approval
               </TableCell>
               <TableCell>
+                Responsibility
               </TableCell>
             </TableRow>
           </TableHead>
@@ -53,19 +53,19 @@ if(!data){
                             status:true
                         })}><Button sx={{color:'black'}} size='small'>pending</Button></TableCell>
                     }
-                    {/* {
-                        item.manager?<TableCell onClick={()=>changeStatus({
+                    {
+                        item.manager?<TableCell onClick={()=>createManager({
                             id:item.id,
                             status:false
                         })}><Button  color='secondary'    variant='contained' size='small'>manager</Button></TableCell>
                         :
-                        <TableCell onClick={()=>changeStatus({
+                        <TableCell onClick={()=>createManager({
                             id:item.id,
                             status:true
                         })}><Button sx={{color:'black'}} size='small'>Create Manager</Button></TableCell>
-                    } */}
+                    }
                     <TableCell>
-                      <IconButton onClick={()=>deleteUser(item.id)} aria-label="delete">
+                      <IconButton sx={{color:"red"}} onClick={()=>deleteUser(item.id)} aria-label="delete">
                       <DeleteIcon />
                     </IconButton>
                     </TableCell>
