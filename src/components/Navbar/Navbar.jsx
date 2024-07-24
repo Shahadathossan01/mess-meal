@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,16 +11,20 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-import{filterPages} from '../../utils/index'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {Chip } from '@mui/material';
-import { action, useStoreActions, useStoreState } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useEffect, useState } from 'react';
 const Navbar=()=>{
+  const {allHistoryData}=useStoreState(state=>state.history)
+  const {fetchHistory}=useStoreActions(action=>action.history)
+    useEffect(()=>{
+      fetchHistory()
+    },[])
     const {user}=useStoreState(state=>state.user)
+
     const {logoutUser}=useStoreActions(action=>action.user)
-    const pages = ['User Details','Grocery cost','History','Login','Logout','Register'];
-    const newPage=filterPages(pages,user)//!Filter pages array.When user login then show logout button and when user logout then show login button. 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,8 +34,9 @@ const Navbar=()=>{
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-
+if(allHistoryData.length==0){
+  return
+}
   return (
     <AppBar position="static" style={{marginTop:'-8px'}}>
       <Container maxWidth="xl">
@@ -105,7 +110,7 @@ const Navbar=()=>{
               <MenuItem onClick={handleCloseNavMenu}>
                   <Link to='/history' style={{color:'black',textDecoration:'none'}}>
                    <Typography textAlign="center">
-                    History <span style={{color:'red'}}>5</span>
+                    History  <span style={{color:'red'}}>{allHistoryData?.data.length}</span>
                    </Typography>
                   </Link>
                 </MenuItem>
@@ -187,7 +192,7 @@ const Navbar=()=>{
                   <Button
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}>
-                  History <span style={{color:'red'}}>5</span>
+                  History <span style={{color:'red'}}>{allHistoryData.data.length}</span>
                   </Button>
               </Link>
               {

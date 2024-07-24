@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Login= () => {
     const [error,setError]=useState(null)
     const navigate=useNavigate()
-    const {loginUser}=useStoreActions(action=>action.user)
+    const {loginUser,forgotPassword}=useStoreActions(action=>action.user)
     const {register,handleSubmit,formState:{errors}}=useForm()
     const onSubmit=async(data)=>{
         try{
@@ -39,7 +39,7 @@ const Login= () => {
                         }
                     </div>
                     <Button type="submit" sx={{width:'70%'}} variant="contained">Login</Button>
-                </form>
+                </form> 
                 {
                     error&&<h5 style={{color:'red',textAlign:'center'}}>Login Failed...<span style={{color:'green'}}>Invalid identifier or password</span></h5>
                 }

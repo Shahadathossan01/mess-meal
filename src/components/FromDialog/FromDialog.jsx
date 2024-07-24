@@ -7,8 +7,8 @@ import { useStoreActions} from "easy-peasy";
 const FormDialog=({handleClose,open,id,date})=>{
   const defaultValues={
     backfast:0,
-    lunch:0,
-    dinner:0
+    lunch:1,
+    dinner:1
   }
     const {updateUserData}=useStoreActions(action=>action.user)
     const {register,handleSubmit}=useForm({defaultValues})
@@ -25,9 +25,20 @@ const FormDialog=({handleClose,open,id,date})=>{
         <DialogTitle sx={{textAlign:'center'}}>Edit Form</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <input {...register('backfast')} placeholder='Backfast' type="text" name="backfast" id="" /><br />
-            <input {...register('lunch')} placeholder='Lunch' type="text" name="lunch" id="" /><br />
-            <input {...register('dinner')} placeholder='Dinner' type="text" name="dinner" id="" /><br></br>
+            <div>
+            <label htmlFor="backfast">Brackfast</label><br />
+            <input {...register('backfast')} placeholder='Backfast' type="text" name="backfast" id="" />  
+            </div><br />
+            <div>
+            <label htmlFor="lunch">Lunch</label><br />
+            <input {...register('lunch')} placeholder='Lunch' type="text" name="lunch" id="" />
+            </div>
+            <br />
+            <div>
+            <label htmlFor="dinner">Dinner</label><br />
+            <input {...register('dinner')} placeholder='Dinner' type="text" name="dinner" id="" />
+            </div>
+            <br></br>
             <button onClick={onSubmit}>submit</button>
           </form>
         </DialogContent>

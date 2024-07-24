@@ -2,6 +2,7 @@ import axios from "axios";
 import { compareAsc, format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
 import { calculateGroceryTotalAmount, calculateTotalMeal } from "../utils";
+import { toast } from "react-toastify";
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
@@ -249,7 +250,6 @@ const userModel={
             console.log(error)
         }
     }),
-    
     beforeUpdatedData:null,
     addBeforeUpdatedData:action((state,payload)=>{
         state.beforeUpdatedData=payload
@@ -378,6 +378,210 @@ const userModel={
              throw Error;
          }
     })),
+    newMonthData:null,
+    addNewMonthData:action((state,payload)=>{
+        state.newMonthData=payload
+    }),
+    startNewMonth:thunk(async(actions,payload)=>{
+        payload.map((async item=>{
+            try{
+                const {data}=await axios.put(`http://localhost:1337/api/users/${item.id}`,{
+                    manager:false,
+                    totalPay:0,
+                    day1:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day2:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day3:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0
+                    },
+                    day4:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day5:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day6:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day7:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day8:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day9:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day10:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day11:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day12:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day13:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day14:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day15:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day16:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day17:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day18:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day19:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day20:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day21:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day22:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day23:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day24:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day25:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day26:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day27:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day28:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day29:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day30:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    },
+                    day31:{
+                        backfast:0,
+                        lunch:0,
+                        dinner:0,
+                        updatedDateTime:null
+                    }
+                 })
+                actions.addNewMonthData(data)
+                
+             }catch(e){
+                 console.error(e)
+                 throw Error;
+             }
+        }))
+    })
     
 }
 const groceryCostModel={
@@ -448,6 +652,21 @@ const groceryCostModel={
             throw Error;
         }
     }),
+    deleteAllGroceryData:null,
+    AddDeleteAllGroceryData:action((state,payload)=>{
+        state.deleteAllGroceryData=payload
+    }),
+    deleteAllGrocery:thunk(async(actions,payload)=>{
+        payload.map(async item=>{
+            try{
+                const {data}=await axios.delete(`http://localhost:1337/api/grocery-costs/${item.id}`)
+                actions.AddDeleteAllGroceryData(data)
+            }catch(e){
+                console.log(e)
+                throw Error;
+            }
+        })
+    })
 }
 const historyModel={
     createdHistoryData:null,
@@ -507,6 +726,7 @@ const historyModel={
         }
     })
 }
+
 const store=createStore({
     user:userModel,
     groceryCost:groceryCostModel,

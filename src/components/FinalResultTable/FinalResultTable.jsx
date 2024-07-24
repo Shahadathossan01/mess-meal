@@ -36,7 +36,7 @@ const FinalResultTable=({data,monthName})=>{
     },[])
   const usersTotalMeals=calculateAllUsersTotalMeal(data)
   const usersTotalPay=calculateAllUsersTotalPay(data)
-  const mealRate=groceryItems.totalAmount /usersTotalMeals
+  const mealRate=Math.ceil(groceryItems.totalAmount /usersTotalMeals)
   const totalReturnValue=totalReturn(data,mealRate)
   const totalAddValue=totalAdd(data,mealRate)
   const totalMealCostValue=totalMealCost(data,mealRate)
@@ -72,9 +72,9 @@ const FinalResultTable=({data,monthName})=>{
                 {data.username}
               </StyledTableCell>
               <StyledTableCell>{data.totalMeal}</StyledTableCell>
-              <StyledTableCell >{data.totalMeal*mealRate}</StyledTableCell>
+              <StyledTableCell >{Math.ceil(data.totalMeal*mealRate)}</StyledTableCell>
               <StyledTableCell >{data.totalPay}</StyledTableCell>
-              <StyledTableCell>{(data.totalMeal*mealRate)-data.totalPay<1?(data.totalMeal*mealRate)-data.totalPay:'0'}</StyledTableCell>
+              <StyledTableCell>{(data.totalMeal*mealRate)-data.totalPay<1?0-((data.totalMeal*mealRate)-data.totalPay):'0'}</StyledTableCell>
               <StyledTableCell>{(data.totalMeal*mealRate)-data.totalPay>1?(data.totalMeal*mealRate)-data.totalPay:'0'}</StyledTableCell>
             </StyledTableRow>
           ))}

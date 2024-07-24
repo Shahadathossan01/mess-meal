@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   //   <App />
   // </React.StrictMode>,
   <StoreProvider store={store}>
-    <App></App>
+    <App/>
   </StoreProvider>
   
 )

@@ -74,13 +74,14 @@ const allUsersTotalMeals=(data)=>{
     },0)
 }
 const totalReturn=(data,mealRate)=>{
-    return data.reduce((acc,cur)=>{
+    const result= data.reduce((acc,cur)=>{
         const result=cur.totalMeal*mealRate-cur.totalPay;
         if(result<1){
             acc+=result;
         }
         return acc;
     },0)
+    return 0-(result)
 }
 const totalAdd=(data,mealRate)=>{
     return data.reduce((acc,cur)=>{

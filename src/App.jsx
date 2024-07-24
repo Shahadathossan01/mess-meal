@@ -7,6 +7,7 @@ import GroceryCost from "./components/GroceryCost/GroceryCost"
 import History from "./components/History/History"
 import User from "./components/User/User"
 import Admin from "./components/Admin/Admin"
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"
 
 function App() {
   const router=createBrowserRouter([
@@ -16,7 +17,7 @@ function App() {
         {path:'/User Details',element:<UserDetails></UserDetails>},
         {path:'/Register',element:<Register></Register>},
         {path:'/Login',element:<Login></Login>},
-        {path:'/Grocery Cost',element:<GroceryCost></GroceryCost>},
+        {path:'/Grocery Cost',element:<PrivateRoute><GroceryCost></GroceryCost></PrivateRoute>},
         {path:'/history',element:<History></History>},
         {path:'/user',element:<User></User>},
         {path:'/admin',element:<Admin></Admin>}

@@ -11,12 +11,11 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 const UserTableFromAdmin=()=>{
-const {data,changeApprovalData,deleteUserData,createdManagerData}=useStoreState(state=>state.user)
+const {data,changeApprovalData,deleteUserData,createdManagerData,newMonthData}=useStoreState(state=>state.user)
 const {fetchAllUser,changeApproval,deleteUser,createManager}=useStoreActions(action=>action.user)
 useEffect(()=>{
     fetchAllUser()
-    console.log('data fetch')
-},[changeApprovalData,deleteUserData,createdManagerData])
+},[changeApprovalData,deleteUserData,createdManagerData,newMonthData])
 if(!data){
   return
 }

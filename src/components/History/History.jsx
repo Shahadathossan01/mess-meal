@@ -10,7 +10,6 @@ const History = () => {
     if(allHistoryData.length==0){
         return 
     }
-    console.log(allHistoryData)
     return (
         <div>
             <h1 style={{textAlign:'center'}}>History</h1><hr />

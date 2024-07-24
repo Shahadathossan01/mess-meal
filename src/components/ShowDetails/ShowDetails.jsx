@@ -5,8 +5,8 @@ import DetailsCard from "../DetailsCard/DetailsCard";
 import { Button } from "@mui/material";
 import TotalPayUpdateModal from "../TotalPayUpdateModal/TotalPayUpdateModal";
 import { useState } from "react";
-const ShowDetails = ({item}) => {
-    const {user,data}=useStoreState(state=>state.user)
+const ShowDetails = ({item,mealRate}) => {
+    const {user}=useStoreState(state=>state.user)
     const [open, setOpen] =useState(false);
 
   const handleClickOpen = () => {
@@ -20,8 +20,11 @@ const ShowDetails = ({item}) => {
     return (
         <div>
             <div>
-            <div style={{textAlign:'center'}}>
+            <div style={{textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
             <h2 style={user?.user.username==item.username ? { color: '#CD5C5C' } : { color: 'black' }}>{item.username.slice(0,10)}</h2>
+            {
+                item.manager&&<span style={{fontSize:'15px',color:'blue'}}>manager</span>
+            }
             </div>
                 <div style={{backgroundColor:'gray',textAlign:'center'}}>
                     <h4 style={{marginTop:'-20px',color:'white'}}>Pay: {item.totalPay}</h4>
@@ -35,7 +38,7 @@ const ShowDetails = ({item}) => {
                 <h5 style={{marginTop:'5px',textAlign:'center',marginBottom:'0px'}}>Total Meal: {item.totalMeal}</h5>
             </div>
             <hr />
-            <div style={{overflow:'scroll',height:'515px'}}>
+            <div style={{overflow:'scroll',height:'540px'}}>
             {
                 itemArray.map(data=>(
                     <DetailsCard id={item.id} data={data} key={data.day}></DetailsCard>
