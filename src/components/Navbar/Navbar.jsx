@@ -110,7 +110,7 @@ if(allHistoryData.length==0){
               <MenuItem onClick={handleCloseNavMenu}>
                   <Link to='/history' style={{color:'black',textDecoration:'none'}}>
                    <Typography textAlign="center">
-                    History  <span style={{color:'red'}}>{allHistoryData?.data.length}</span>
+                    History
                    </Typography>
                   </Link>
                 </MenuItem>
@@ -192,7 +192,7 @@ if(allHistoryData.length==0){
                   <Button
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}>
-                  History <span style={{color:'red'}}>{allHistoryData.data.length}</span>
+                  History
                   </Button>
               </Link>
               {

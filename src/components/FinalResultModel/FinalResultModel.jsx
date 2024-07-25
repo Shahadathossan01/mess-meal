@@ -52,7 +52,7 @@ const FinalResultModel=({handleClose,open,data,monthName})=>{
             >
               <CloseIcon />
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h7" component="div">
               Final Result
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClick}>

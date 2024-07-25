@@ -26,12 +26,12 @@ const Register = () => {
                 <form onSubmit={handleSubmit(onSubmit)} style={{padding:'30px 0px 0px 20%'}}>
                     <div style={{display:'block' ,width:'70%'}}>
                         <label htmlFor="username">Username</label><br />
-                        <input {...register("username",{required:true})} style={{width:'100%'}} type="text" name="username" id="username" />
+                        <input {...register("username",{required:true})} style={{width:'100%',marginBottom:'20px'}} type="text" name="username" id="username" />
                         {errors.username&&<span style={{color:'red'}}>please provide your name</span>}
                     </div>
                     <div style={{display:'block',width:'70%'}}>
                         <label htmlFor="email">Email</label><br />
-                        <input {...register("email",{required:true,})} style={{width:'100%'}} type="email" name="email" id="email" />
+                        <input {...register("email",{required:true,})} style={{width:'100%',marginBottom:'20px'}} type="email" name="email" id="email" />
                         {
                             errors.email&&<span style={{color:'red'}}>provide your email</span>
                         }

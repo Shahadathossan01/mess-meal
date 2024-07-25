@@ -51,17 +51,16 @@ const Admin = () => {
             
             <div>
                 <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                        <h1>Name: {user?.user.username}</h1>
-                        
-                        <Button onClick={handleToStartNewMonth}  variant="contined" style={{backgroundColor:'#EF9C66',color:'white'}}>to start new month</Button><br />
+                    <Grid item xs={12} sm={12} xl={4}>
+                        <Button sx={{width:'190px',mb:'10px'}} variant="contained">Name: {user?.user.username.slice(0,12)}</Button><br />
+                        <Button onClick={handleToStartNewMonth}  variant="contained" style={{backgroundColor:'#EF9C66',color:'white',marginBottom:'20px'}}>to start new month</Button><br />
           
-                        <Button onClick={handleClickOpenName}>Change your username!</  Button><br />
+                        <Button sx={{mb:'-10px'}} onClick={handleClickOpenName}>Change your username!</  Button><br />
                         <Button onClick={handleClickOpenPass}>Change your password!</Button><br />
                         <UserFormModel handleData={changePassword} handleClose={handleClosePass} open={openPass}></UserFormModel>
                         <UserFormModel handleData={changeUsername} id={user.user.id} username={true} handleClose={handleCloseName} open={openName}></UserFormModel>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={12} sm={12} xl={8}>
                         <UserTableFromAdmin></UserTableFromAdmin>
                     </Grid>
                 </Grid>

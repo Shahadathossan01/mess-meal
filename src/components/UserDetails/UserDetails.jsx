@@ -3,7 +3,7 @@ import ShowDetails from "../ShowDetails/ShowDetails";
 import { useEffect, useState } from "react";
 import { approvedUserArray, calculateAllUsersTotalMeal, calculateAllUsersTotalPay } from "../../utils";
 import { format } from "date-fns";
-import { Button, Chip } from "@mui/material";
+import { Button, Chip, Grid } from "@mui/material";
 import FinalResultModel from "../FinalResultModel/FinalResultModel";
 const UserDetails =() => {
     const {groceryItems}=useStoreState(state=>state.groceryCost)
@@ -45,28 +45,44 @@ const UserDetails =() => {
     const allUsersMeal=calculateAllUsersTotalMeal(data)
    const allUsersTotalPay=calculateAllUsersTotalPay(data)
    const mealRate=Math.ceil(groceryItems.totalAmount/allUsersMeal)
+   console.log(mealRate.toString()=='NaN')
+   console.log(typeof(mealRate.toString()))
+   
    if(!data){
     return
     }
     return (
         <div>
-        <div style={{display:'flex',gap:'30px',flexWrap:'nowrap',justifyContent:'space-evenly',fontSize:'10px',marginBottom:'-20px',marginTop:'-10px'}}>
-            <h1>Overall Meal: {allUsersMeal}</h1>
-            <h1>Overall Pay: {allUsersTotalPay} taka</h1>
-            <h1>Overall Cost: {groceryItems.totalAmount} taka</h1>
-        </div><hr />
-        <div style={{textAlign:'center',marginBottom:'20px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            
-            <h2 style={{color:'purple'}}>Meal rate: {mealRate>=0?mealRate:0}</h2>
-            <Chip  label={monthName?.toUpperCase()} color="secondary" />
-            
-            <div>
-            {
-                (user?.user.manager||user?.user.admin)&&<Button onClick={handleClickOpen} size="small" variant="contained">Show Final Result</Button>
-            }
-            </div>
+        <Grid sx={{textAlign:'center',marginBottom:'20px',marginTop:'10px'}} container spacing={0}>
+            <Grid item sm={4}  xs={12} md={4}>
+                <h4 style={{marginBottom:'-15px'}}>Overall Meal: {allUsersMeal}</h4>
+            </Grid>
+            <Grid item sm={4} xs={12} md={4}>
+                <h4 style={{marginBottom:'-15px'}}>Overall Pay: {allUsersTotalPay} taka</h4>   
+            </Grid>
+            <Grid item sm={4} xs={12} md={4}>
+                <h4 style={{marginBottom:'-15px'}}>Overall Cost: {groceryItems.totalAmount} taka</h4>
+            </Grid>
+        </Grid>
+        <hr />
+
+        <Grid sx={{textAlign:'center',marginBottom:'20px',marginTop:'10px'}} container spacing={0}>
+            <Grid item sm={4}  xs={12} md={4}>
+                <Button  size="small" variant="contained" style={{color:'white',marginBottom:'5px'}}>Meal rate: {(mealRate<0 ||mealRate=='Infinity'||mealRate.toString()=='NaN')?0:mealRate}</Button>
+            </Grid>
+            <Grid item sm={4} xs={12} md={4}>
+                <Chip sx={{marginBottom:'5px'}}  label={monthName?.toUpperCase()} color="secondary" />   
+            </Grid>
+            <Grid item sm={4} xs={12} md={4}>
+                <div style={{marginBottom:'5px'}}>
+                {
+                    (user?.user.manager||user?.user.admin)&&<Button onClick={handleClickOpen} size="small" variant="contained">Show Final Result</Button>
+                }
+                </div>
+            </Grid>
             <FinalResultModel monthName={monthName}  data={data} handleClose={handleClose} open={open}></FinalResultModel>
-        </div>
+        </Grid>
+
             <div style={{display:'flex',gap:'20px',height:'700px',overflow:"scroll",width:'100%',marginTop:'-25px'}}>
             {
                 approvalUserData?.map(item=>(

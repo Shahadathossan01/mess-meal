@@ -17,7 +17,7 @@ const GroceryCost = () => {
     };
     return (
         <div>
-            <h1>Grocery Cost</h1>
+            <h1 style={{textAlign:'center'}}>Grocery Cost</h1><hr />
             <Button variant="contained" color="success"   onClick={handleClickOpen}>Add Items</Button>
             <ItemsModal handleData={createGrocery} handleClose={handleClose} handleClickOpen={handleClickOpen} open={open}></ItemsModal>
             <div>

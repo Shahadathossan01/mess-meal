@@ -22,7 +22,9 @@ const DetailsCard = ({data,id}) => {
         marginBottom:'5px'}}>
             <table>
                 <tr style={{textAlign:'center',}}>
-                    <Button variant="contained"  style= {{paddingLeft:'10px',marginLeft:'30px',backgroundColor:'#EF9C66'}}>date-{data.day.replace('day','')}</Button>
+                    <Button variant="contained"  style= {{paddingLeft:'10px',marginLeft:'30px',
+                    color:'black',
+                    backgroundColor:'#EF9C66'}}>date-{data.day.replace('day','')}</Button>
                 </tr>
                 <tr>
                     <th>B</th>

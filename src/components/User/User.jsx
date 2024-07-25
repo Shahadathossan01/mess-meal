@@ -28,8 +28,8 @@ const User = () => {
         return
     }
     return (
-        <div>
-            <h1>{user?.user.username}</h1>
+        <div style={{marginTop:'30px',textAlign:'center'}}>
+          <Button sx={{width:'190px',mb:'10px'}} variant="contained">Name: {user?.user.username.slice(0,12)}</Button><br />
             <Button onClick={handleClickOpenName}>Change your username!</  Button><br />
             <Button onClick={handleClickOpenPass}>Change your password!</Button>
             <UserFormModel handleData={changePassword} handleClose={handleClosePass} open={openPass}></UserFormModel>

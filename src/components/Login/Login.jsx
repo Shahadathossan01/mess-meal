@@ -26,7 +26,7 @@ const Login= () => {
                 <form onSubmit={handleSubmit(onSubmit)} style={{padding:'30px 0px 0px 20%'}}>
                     <div style={{display:'block',width:'70%'}}>
                         <label htmlFor="email">Email</label><br />
-                        <input {...register("email",{required:true,})} style={{width:'100%'}} type="email" name="email" id="email" />
+                        <input {...register("email",{required:true,})} style={{width:'100%',marginBottom:'20px'}} type="email" name="email" id="email" />
                         {
                             errors.email&&<span style={{color:'red'}}>provide your email</span>
                         }
