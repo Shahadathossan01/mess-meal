@@ -1,8 +1,8 @@
 import axios from "axios";
-import { compareAsc, format } from "date-fns";
+import { format } from "date-fns";
 import { action, createStore, thunk } from "easy-peasy";
 import { calculateGroceryTotalAmount, calculateTotalMeal } from "../utils";
-import { toast } from "react-toastify";
+
 
 const userModel={
     user:localStorage.getItem('userData')?JSON.parse(localStorage.getItem('userData')):null,
@@ -20,186 +20,208 @@ const userModel={
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day2:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day3:{
                     backfast:0,
                     lunch:0,
-                    dinner:0
+                    dinner:0,
+                    updatedDateTime:null,
+                    
                 },
                 day4:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day5:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day6:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day7:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day8:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day9:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day10:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day11:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day12:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day13:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
                 },
                 day14:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day15:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day16:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day17:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    close:false
                 },
                 day18:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day19:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                  
                 },
                 day20:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day21:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day22:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                  
                 },
                 day23:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day24:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day25:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day26:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day27:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day28:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day29:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                    
                 },
                 day30:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 },
                 day31:{
                     backfast:0,
                     lunch:0,
                     dinner:0,
-                    updatedDateTime:null
+                    updatedDateTime:null,
+                   
                 }
             })
             actions.addUser(data)
@@ -264,6 +286,24 @@ const userModel={
                     lunch:payload.data.lunch,
                     dinner:payload.data.dinner,
                     updatedDateTime:formattedDate
+                }
+            })
+            actions.addBeforeUpdatedData(data)
+
+        }catch(e){
+            console.error(e)
+            throw Error;
+        }
+    }),
+    updateUserCloseData:thunk(async(actions,payload,{getState})=>{
+        const state=getState()
+        const data=state.data
+        const findData=data.find(data=>data.id===payload.id)
+        try{
+           const {data}=await axios.put(`http://localhost:1337/api/users/${payload.id}`,{
+                [payload.date]:{
+                    ...findData[payload.date],
+                    close:payload.close
                 }
             })
             actions.addBeforeUpdatedData(data)
@@ -392,186 +432,218 @@ const userModel={
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day2:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day3:{
                         backfast:0,
                         lunch:0,
-                        dinner:0
+                        dinner:0,
+                        updatedDateTime:null,
+                        
                     },
                     day4:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day5:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day6:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day7:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day8:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day9:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day10:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day11:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day12:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day13:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                      
                     },
                     day14:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day15:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day16:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day17:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                     
                     },
                     day18:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day19:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                     
                     },
                     day20:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day21:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day22:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day23:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day24:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                     
                     },
                     day25:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day26:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                      
                     },
                     day27:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                        
                     },
                     day28:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day29:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                      
                     },
                     day30:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     },
                     day31:{
                         backfast:0,
                         lunch:0,
                         dinner:0,
-                        updatedDateTime:null
+                        updatedDateTime:null,
+                       
                     }
                  })
                 actions.addNewMonthData(data)

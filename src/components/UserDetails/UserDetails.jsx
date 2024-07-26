@@ -45,8 +45,6 @@ const UserDetails =() => {
     const allUsersMeal=calculateAllUsersTotalMeal(data)
    const allUsersTotalPay=calculateAllUsersTotalPay(data)
    const mealRate=Math.ceil(groceryItems.totalAmount/allUsersMeal)
-   console.log(mealRate.toString()=='NaN')
-   console.log(typeof(mealRate.toString()))
    
    if(!data){
     return
